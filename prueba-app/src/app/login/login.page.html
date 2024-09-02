@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Login
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Login</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="correo">Correo electrónico</label>
+        <input type="email" id="correo" formControlName="correo" placeholder="usuario@dominio.com" />
+        @if (form.controls.correo.invalid && trigger) {
+          @if (form.controls.correo.hasError('required')) {
+            <div>El correo electrónico es requerido</div>
+          }
+          @if (form.controls.correo.hasError('email')) {
+            <div>El correo electrónico no es válido</div>
+          }
+        }
+      </div>
+      <div>
+        <label for="clave">Clave</label>
+        <input type="password" id="clave" formControlName="clave" />
+        @if (form.controls.clave.invalid && trigger) {
+          @if (form.controls.clave.hasError('required')) {
+            <div>La clave es requerida</div>
+          }
+          @if (form.controls.clave.hasError('minLength')) {
+            <div>La clave debe contener al menos 8 caracteres</div>
+          }
+        }
+      </div>
+      <div>
+        <button type="submit">Iniciar sesión</button>
+      </div>
+    </form>
+  </div>
+</ion-content>
