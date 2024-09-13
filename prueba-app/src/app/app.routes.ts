@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'splash',
     pathMatch: 'full',
   },
   {
@@ -18,5 +18,9 @@ export const routes: Routes = [
     loadComponent: () => import('./login/login.page').then( m => m.LoginPage),
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => redirectLoggedInTo('home') }
+  },
+  {
+    path: 'splash',
+    loadComponent: () => import('./splash/splash.page').then( m => m.SplashPage)
   },
 ];
