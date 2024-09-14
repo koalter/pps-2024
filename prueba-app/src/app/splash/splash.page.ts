@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
-import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,14 +13,12 @@ import { Router } from '@angular/router';
 })
 export class SplashPage implements OnInit {
 
-  constructor(private platform: Platform,
-    private router: Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    this.platform.ready()
-      .then(() => {
-        // this.router.navigate(['/home']);
-      });
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 2000);
   }
 
 }
