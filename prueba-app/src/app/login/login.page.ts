@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonGrid, IonCol, IonRow, IonItem, IonLabel, IonList, IonInput, IonText, IonIcon } from '@ionic/angular/standalone';
+import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -20,11 +21,10 @@ export class LoginPage {
   
   constructor(private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private toastController: ToastController) {}
 
   onSubmit() {
-    this.fillTestData();
-
     if (this.form.valid) {
       this.authService.login(this.form.value.correo!, this.form.value.clave!)
         .subscribe({
@@ -33,11 +33,13 @@ export class LoginPage {
               .then(() => this.form.reset());
           },
           error: (err) => {
-            console.log(err);
+            this.openErrorToast('Complete el formulario con datos válidos')
+              .then(() => this.form.markAsTouched());
           }
         });
     } else {
-      console.log("Formulario no válido");
+      this.openErrorToast('Complete el formulario con datos válidos')
+        .then(() => this.form.markAsTouched());
     }
   }
 
@@ -61,8 +63,19 @@ export class LoginPage {
     return '';
   }
 
-  fillTestData() {
-    this.form.get('correo')?.setValue('iiqwjerbpuzbmyctvu@nbmbb.com');
-    this.form.get('clave')?.setValue('iiqwjerbpuzbmyctvu@nbmbb.com');
+  fillTestData(correo: string, clave: string) {
+    this.form.get('correo')?.setValue(correo);
+    this.form.get('clave')?.setValue(clave);
+  }
+
+  async openErrorToast(message: string) {
+    const toast = await this.toastController.create({
+      message: 'Complete el formulario con datos válidos',
+      duration: 2000,
+      position: 'bottom',
+      color: 'danger'
+    });
+
+    return toast.present();
   }
 }
